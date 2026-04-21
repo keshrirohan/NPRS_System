@@ -1,9 +1,18 @@
 import axios from "axios";
 
-export const uploadImage = async (formData) => {
-  const res = await axios.post(
-    "http://localhost:5000/api/upload",
-    formData
-  );
-  return res.data;
-};
+const API = axios.create({
+  baseURL: "http://localhost:5000/api",
+});
+
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+  return req;
+});
+
+export const signup = (data) => API.post("/auth/signup", data);
+export const login = (data) => API.post("/auth/login", data);
+export const uploadImage = (data) => API.post("/upload", data);
+export const getHistory = () => API.get("/history");

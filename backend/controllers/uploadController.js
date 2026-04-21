@@ -1,28 +1,29 @@
 import { sendToPython } from "../services/pythonService.js";
+import History from "../models/History.js";
 
 export const uploadImage = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "No file uploaded",
-      });
-    }
-
     const filePath = req.file.path;
 
-    // 🔥 Python call
     const result = await sendToPython(filePath);
 
-    res.json({
-      success: true,
-      plate: result.plate_number,
+    const plate = result.plate_number || "NOT DETECTED";
+
+    // ✅ IMAGE FIX (filename only)
+    await History.create({
+      userId: req.user.id,
+      image: req.file.filename,
+      plateNumber: plate,
     });
 
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Processing failed",
-    });
+    res.json({ plate });
+
+  } catch (err) {
+    res.status(500).json({ message: "Error" });
   }
+};
+
+export const getHistory = async (req, res) => {
+  const data = await History.find({ userId: req.user.id }).sort({ createdAt: -1 });
+  res.json(data);
 };
