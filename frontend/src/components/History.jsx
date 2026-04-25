@@ -24,7 +24,7 @@ const History = ({ data }) => {
 
             {/* Image */}
             <img
-              src={`http://localhost:5000/uploads/${item.image}`}
+              src={`https://nprs-system-backend.onrender.com/uploads/${item.image}`}
               alt="plate"
               className="w-full h-24 object-cover rounded mt-2 border border-red-500"
             />

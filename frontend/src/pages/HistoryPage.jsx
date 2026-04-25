@@ -51,7 +51,7 @@ const HistoryPage = () => {
 
                 {/* Image */}
                 <img
-                  src={`http://localhost:5000/uploads/${item.image}`}
+                  src={`https://nprs-system-backend.onrender.com/uploads/${item.image}`}
                   alt="plate"
                   className="w-full h-32 object-cover rounded-lg mt-3 border border-red-400"
                 />
