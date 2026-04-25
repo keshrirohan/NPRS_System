@@ -1,4 +1,5 @@
 flask
-opencv-python
+opencv-python-headless
 pytesseract
 numpy
+gunicorn
